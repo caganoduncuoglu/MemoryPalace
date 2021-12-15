@@ -8,10 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.atm.memoryPalace.databinding.ActivityMainBinding;
 
@@ -22,10 +25,17 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    Toolbar toolbar;
+    RecyclerView recyclerView;
+    int[] images;
+    String[] placeNames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("A1");
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -35,6 +45,31 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        System.out.println("A2");
+
+        int[] images = new int[]{R.drawable.a, R.drawable.b,
+                R.drawable.c, R.drawable.d, R.drawable.e, R.drawable.f, R.drawable.g};
+
+        System.out.println("A3");
+
+        String[] placeNames = new String[]{"Navagio Beach", "Anse Source d'Argent Beach", "As Catedrais Beach",
+                "La Concha Beach", "Bondi Beach", "Nissi Beach", "Random Beach"};
+
+        System.out.println("A4");
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this,
+                LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+       // MyAdapter myAdapter = new MyAdapter(MainActivity.this, images, placeNames);
+       // recyclerView.setAdapter(myAdapter);
+
+        System.out.println("A5");
+
+
     }
 
     @Override

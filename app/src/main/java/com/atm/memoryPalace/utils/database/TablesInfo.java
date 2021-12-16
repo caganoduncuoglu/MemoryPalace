@@ -10,6 +10,7 @@ public class TablesInfo {
         public static final String COLUMN_ID = "id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_DESCRIPTION = "description";
+        public static final String COLUMN_IMAGE = "imageBitmap";
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_LOCATION = "location";
         public static final String COLUMN_CREATE_DATE = "create_date";

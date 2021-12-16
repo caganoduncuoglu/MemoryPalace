@@ -6,12 +6,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.atm.memoryPalace.entity.Memory;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TablesInfo.MemoryEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TablesInfo.MemoryEntry.COLUMN_TITLE + " TEXT, " +
                     TablesInfo.MemoryEntry.COLUMN_DESCRIPTION + " TEXT, " +
+                    TablesInfo.MemoryEntry.COLUMN_IMAGE + " BLOB, " +
                     TablesInfo.MemoryEntry.COLUMN_DATE + " TEXT, " +
                     TablesInfo.MemoryEntry.COLUMN_LOCATION + " TEXT, " +
                     TablesInfo.MemoryEntry.COLUMN_CREATE_DATE + " TEXT DEFAULT CURRENT_TIMESTAMP" +
@@ -51,14 +55,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addMemory(String title, String description, String date, String location) {
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
+
+    public static Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+
+    public void addMemory(String title, String description, String date, String location, Bitmap bitmap) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TablesInfo.MemoryEntry.COLUMN_TITLE, title.trim());
         cv.put(TablesInfo.MemoryEntry.COLUMN_DESCRIPTION, description.trim());
+        cv.put(TablesInfo.MemoryEntry.COLUMN_IMAGE, getBitmapAsByteArray(bitmap));
         cv.put(TablesInfo.MemoryEntry.COLUMN_DATE, date.trim());
         cv.put(TablesInfo.MemoryEntry.COLUMN_LOCATION, location.trim());
         cv.put(TablesInfo.MemoryEntry.COLUMN_CREATE_DATE, format.format(new Date()));
+
 
         long result = db.insert(TablesInfo.MemoryEntry.TABLE_NAME, null, cv);
 
@@ -85,6 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TablesInfo.MemoryEntry.COLUMN_ID,
                 TablesInfo.MemoryEntry.COLUMN_TITLE,
                 TablesInfo.MemoryEntry.COLUMN_DESCRIPTION,
+                TablesInfo.MemoryEntry.COLUMN_IMAGE,
                 TablesInfo.MemoryEntry.COLUMN_LOCATION,
                 TablesInfo.MemoryEntry.COLUMN_DATE,
                 TablesInfo.MemoryEntry.COLUMN_CREATE_DATE
@@ -97,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_ID)),
                         c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_TITLE)),
                         c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_DESCRIPTION)),
+                        getImage(c.getBlob(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_IMAGE))),
                         c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_LOCATION)),
                         format.parse(c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_DATE))),
                         format.parse(c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_CREATE_DATE)))

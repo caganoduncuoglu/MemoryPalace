@@ -1,19 +1,32 @@
 package com.atm.memoryPalace.entity;
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 
 public class Memory{
     public String id;
     public String title;
     public String description;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public Bitmap bitmap;
     public String location;
     public Date date;
     public Date createDate;
 
-    public Memory(String id, String title, String description, String location, Date date, Date createDate) {
+    public Memory(String id, String title, String description, Bitmap bitmap, String location, Date date, Date createDate) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.bitmap = bitmap;
         this.location = location;
         this.date = date;
         this.createDate = createDate;

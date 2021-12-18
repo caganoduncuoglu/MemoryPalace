@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.atm.memoryPalace.utils.database.DatabaseHelper;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Date;
 
 public class InsertMemoryFragment extends Fragment {
 
@@ -37,6 +39,7 @@ public class InsertMemoryFragment extends Fragment {
     private Button galleryButton;
     private Button takePhotoButton;
     private LinearLayout imageLinearLayout;
+    private LinearLayout imageFieldLinearLayout;
     public static final int PICK_IMAGE = 1;
     public static final int TAKE_PHOTO = 2;
     public static final int GET_DATETIME = 3;
@@ -63,13 +66,29 @@ public class InsertMemoryFragment extends Fragment {
         galleryButton = view.findViewById(R.id.select_from_gallery);
         takePhotoButton = view.findViewById(R.id.take_from_camera);
         imageLinearLayout = view.findViewById(R.id.image_linear_layout);
+        imageFieldLinearLayout = view.findViewById(R.id.image_field_linear_layout);
         databaseHelper = new DatabaseHelper(getContext());
 
         dateText.setFocusable(false);
+        dateText.setText(DatabaseHelper.format.format(new Date()));
 
         binding.insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (titleText.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Title should not be blank!", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (descriptionText.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Description should not be blank!", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (locationText.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Location should not be blank!", Toast.LENGTH_LONG).show();
+                    return;
+                } else if (bitmap == null) {
+                    Toast.makeText(getActivity(), "Image should not be blank!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 databaseHelper.addMemory(
                         titleText.getText().toString(),
                         descriptionText.getText().toString(),
@@ -115,21 +134,12 @@ public class InsertMemoryFragment extends Fragment {
         requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, TAKE_PHOTO);
-        /*Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-        i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-        startActivityForResult(Intent.createChooser(i, "Take Photo"), TAKE_PHOTO);*/
     }
 
-    // this function is triggered when user
-    // selects the image from the imageChooser
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-
-            // compare the resultCode with the
-            // SELECT_PICTURE constant
             if (requestCode == PICK_IMAGE) {
                 if (data.getData() != null) {
                     try {
@@ -139,7 +149,8 @@ public class InsertMemoryFragment extends Fragment {
                         ImageView imageView = new ImageView(getContext());
                         imageView.setImageBitmap(bitmap);
 
-                        imageLinearLayout.addView(imageView);
+                        imageFieldLinearLayout.removeAllViews();
+                        imageFieldLinearLayout.addView(imageView);
                         imageLinearLayout.getLayoutParams().height = 750;
                         imageLinearLayout.requestLayout();
                     } catch (FileNotFoundException e) {
@@ -154,7 +165,8 @@ public class InsertMemoryFragment extends Fragment {
                     ImageView imageView = new ImageView(getContext());
                     imageView.setImageBitmap(bitmap);
 
-                    imageLinearLayout.addView(imageView);
+                    imageFieldLinearLayout.removeAllViews();
+                    imageFieldLinearLayout.addView(imageView);
                     imageLinearLayout.getLayoutParams().height = 750;
                     imageLinearLayout.requestLayout();
                 }

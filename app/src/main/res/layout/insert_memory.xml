@@ -95,6 +95,14 @@
                             android:orientation="vertical"
                             />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/image_field_linear_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        tools:context=".MainActivity" />
                 </LinearLayout>
 
                 <TextView android:id="@+id/memoryInsertDate"

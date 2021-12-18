@@ -25,9 +25,10 @@ import java.util.Locale;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    public static DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
     public static final String DATABASE_NAME = "memory_palace.db";
     private static final int DATABASE_VERSION = 1;
-    private DateFormat format = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+
 
     private static final String TABLE_MEMORIES_CREATE =
             "CREATE TABLE " + TablesInfo.MemoryEntry.TABLE_NAME + " (" +

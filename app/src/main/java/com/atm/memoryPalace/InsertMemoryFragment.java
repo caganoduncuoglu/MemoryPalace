@@ -39,6 +39,7 @@ public class InsertMemoryFragment extends Fragment {
     private LinearLayout imageLinearLayout;
     public static final int PICK_IMAGE = 1;
     public static final int TAKE_PHOTO = 2;
+    public static final int GET_DATETIME = 3;
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Bitmap bitmap;
 
@@ -63,6 +64,8 @@ public class InsertMemoryFragment extends Fragment {
         takePhotoButton = view.findViewById(R.id.take_from_camera);
         imageLinearLayout = view.findViewById(R.id.image_linear_layout);
         databaseHelper = new DatabaseHelper(getContext());
+
+        dateText.setFocusable(false);
 
         binding.insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +93,16 @@ public class InsertMemoryFragment extends Fragment {
                 takePhoto();
             }
         });
+
+        dateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),DateTimePickerActivity.class);
+                startActivityForResult(intent,GET_DATETIME);
+            }
+        });
     }
+
 
     public void pickImage() {
         Intent i = new Intent();
@@ -146,6 +158,8 @@ public class InsertMemoryFragment extends Fragment {
                     imageLinearLayout.getLayoutParams().height = 750;
                     imageLinearLayout.requestLayout();
                 }
+            } else if (requestCode == GET_DATETIME) {
+                dateText.setText(data.getStringExtra("date"));
             }
         }
     }

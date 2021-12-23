@@ -21,7 +21,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.atm.memoryPalace.databinding.InsertMemoryBinding;
 import com.atm.memoryPalace.utils.database.DatabaseHelper;
 
 import java.io.FileNotFoundException;
@@ -30,7 +29,6 @@ import java.util.Date;
 
 public class InsertMemoryFragment extends Fragment {
 
-    private InsertMemoryBinding binding;
     private EditText titleText;
     private EditText descriptionText;
     private EditText locationText;
@@ -46,14 +44,18 @@ public class InsertMemoryFragment extends Fragment {
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Bitmap bitmap;
 
+
+    public InsertMemoryFragment() {
+
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            Bundle savedInstanceState) {
 
-        binding = InsertMemoryBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.insert_memory, container, false);
+
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -72,7 +74,8 @@ public class InsertMemoryFragment extends Fragment {
         dateText.setFocusable(false);
         dateText.setText(DatabaseHelper.format.format(new Date()));
 
-        binding.insertButton.setOnClickListener(new View.OnClickListener() {
+        Button insertButton = view.findViewById(R.id.insert_button);
+        insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (titleText.getText().toString().equals("")) {
@@ -116,8 +119,8 @@ public class InsertMemoryFragment extends Fragment {
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),DateTimePickerActivity.class);
-                startActivityForResult(intent,GET_DATETIME);
+                Intent intent = new Intent(getContext(), DateTimePickerActivity.class);
+                startActivityForResult(intent, GET_DATETIME);
             }
         });
     }
@@ -176,10 +179,5 @@ public class InsertMemoryFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
 }

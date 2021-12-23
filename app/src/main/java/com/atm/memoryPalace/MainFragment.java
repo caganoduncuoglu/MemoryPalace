@@ -5,17 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 
-import com.atm.memoryPalace.databinding.MainBinding;
 import com.atm.memoryPalace.entity.Memory;
 import com.atm.memoryPalace.utils.database.DatabaseHelper;
 
@@ -23,31 +19,34 @@ import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
 
-    private MainBinding binding;
     private LinearLayout mainLinearLayout;
     private DatabaseHelper databaseHelper;
 
 
+    public MainFragment() {
+
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-        binding = MainBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+            Bundle savedInstanceState) {
+
+        return inflater.inflate(R.layout.home_fragment, container, false);
+
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         databaseHelper = new DatabaseHelper(getContext());
-        mainLinearLayout = view.findViewById(R.id.main_linear_layout);
+        mainLinearLayout = view.findViewById(R.id.home_linear_layout);
 
 
         ArrayList<Memory> memories = databaseHelper.getMemoryList();
-        for (int i = 0; i < memories.size() ; i++) {
+        for (int i = 0; i < memories.size(); i++) {
             Memory memory = memories.get(i);
-            Log.i("MainFragment",memory.toString());
+            Log.i("MainFragment", memory.toString());
 
             TextView title = new TextView(getContext());
             title.setText(memory.getTitle());
@@ -70,6 +69,7 @@ public class MainFragment extends Fragment {
         }
 
 
+        /*
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,12 +77,8 @@ public class MainFragment extends Fragment {
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
             }
         });
+         */
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
 
 }

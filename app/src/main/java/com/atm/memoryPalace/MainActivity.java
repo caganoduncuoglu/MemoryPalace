@@ -2,74 +2,52 @@ package com.atm.memoryPalace;
 
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.View;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atm.memoryPalace.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity   {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
-    Toolbar toolbar;
-    RecyclerView recyclerView;
-    int[] images;
-    String[] placeNames;
+    BottomNavigationView bottomNavigationView;
 
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
+
+        Fragment selectedFragment = null;
+
+        switch (item.getItemId()) {
+            case R.id.home_nav_bar:
+                selectedFragment = new MainFragment();
+                break;
+
+            case R.id.add_nav_bar:
+                selectedFragment = new InsertMemoryFragment();
+                break;
+
+
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+        return true;
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        System.out.println("A1");
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-
-        System.out.println("A2");
-
-        int[] images = new int[]{R.drawable.a, R.drawable.b,
-                R.drawable.c, R.drawable.d, R.drawable.e, R.drawable.f, R.drawable.g};
-
-        System.out.println("A3");
-
-        String[] placeNames = new String[]{"Navagio Beach", "Anse Source d'Argent Beach", "As Catedrais Beach",
-                "La Concha Beach", "Bondi Beach", "Nissi Beach", "Random Beach"};
-
-        System.out.println("A4");
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this,
-                LinearLayoutManager.VERTICAL, false);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-       // MyAdapter myAdapter = new MyAdapter(MainActivity.this, images, placeNames);
-       // recyclerView.setAdapter(myAdapter);
-
-        System.out.println("A5");
+        setContentView(R.layout.activity_main);
 
 
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+        bottomNavigationView.setSelectedItemId(R.id.home_nav_bar);
     }
 
     @Override
@@ -94,10 +72,4 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }

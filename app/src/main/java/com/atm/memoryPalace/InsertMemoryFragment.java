@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -34,8 +35,8 @@ public class InsertMemoryFragment extends Fragment {
     private EditText locationText;
     private EditText dateText;
     private DatabaseHelper databaseHelper;
-    private Button galleryButton;
-    private Button takePhotoButton;
+    private ImageButton galleryButton;
+    private ImageButton takePhotoButton;
     private LinearLayout imageLinearLayout;
     private LinearLayout imageFieldLinearLayout;
     public static final int PICK_IMAGE = 1;

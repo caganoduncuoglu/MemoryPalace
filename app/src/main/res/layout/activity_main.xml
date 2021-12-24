@@ -7,6 +7,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,13 +18,16 @@
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-        android:layout_above="@id/bottomNavigation"
+            android:layout_above="@id/bottomNavigation"
+            android:background="@color/background"
         />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:theme="@style/BottomNavigationTheme"
             android:layout_alignParentBottom="true"
             app:menu="@menu/bottom_nav_menu"/>
 

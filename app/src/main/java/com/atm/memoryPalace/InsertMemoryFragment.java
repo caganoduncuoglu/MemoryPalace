@@ -78,27 +78,34 @@ public class InsertMemoryFragment extends Fragment {
         insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (titleText.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Title should not be blank!", Toast.LENGTH_LONG).show();
-                    return;
-                } else if (descriptionText.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Description should not be blank!", Toast.LENGTH_LONG).show();
-                    return;
-                } else if (locationText.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Location should not be blank!", Toast.LENGTH_LONG).show();
-                    return;
-                } else if (bitmap == null) {
-                    Toast.makeText(getActivity(), "Image should not be blank!", Toast.LENGTH_LONG).show();
-                    return;
-                }
+               try{
+                   if (titleText.getText().toString().equals("")) {
+                       Toast.makeText(getActivity(), "Title should not be blank!", Toast.LENGTH_LONG).show();
+                       return;
+                   } else if (descriptionText.getText().toString().equals("")) {
+                       Toast.makeText(getActivity(), "Description should not be blank!", Toast.LENGTH_LONG).show();
+                       return;
+                   } else if (locationText.getText().toString().equals("")) {
+                       Toast.makeText(getActivity(), "Location should not be blank!", Toast.LENGTH_LONG).show();
+                       return;
+                   } else if (bitmap == null) {
+                       Toast.makeText(getActivity(), "Image should not be blank!", Toast.LENGTH_LONG).show();
+                       return;
+                   }
 
-                databaseHelper.addMemory(
-                        titleText.getText().toString(),
-                        descriptionText.getText().toString(),
-                        dateText.getText().toString(),
-                        locationText.getText().toString(),
-                        bitmap
-                );
+                   databaseHelper.addMemory(
+                           titleText.getText().toString(),
+                           descriptionText.getText().toString(),
+                           dateText.getText().toString(),
+                           locationText.getText().toString(),
+                           bitmap
+                   );
+                   Toast.makeText(getActivity(), "Success ! ", Toast.LENGTH_LONG).show();
+
+               }catch(Exception e){
+                   System.out.println("insertButton.onClick e: "+e);
+                   Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_LONG).show();
+               }
             }
         });
 

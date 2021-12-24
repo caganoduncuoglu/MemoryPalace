@@ -1,12 +1,17 @@
 package com.atm.memoryPalace;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.WindowMetrics;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +47,9 @@ public class MainFragment extends Fragment {
         databaseHelper = new DatabaseHelper(getContext());
         mainLinearLayout = view.findViewById(R.id.home_linear_layout);
 
+        WindowManager w = getActivity().getWindowManager();
+        Display d = w.getDefaultDisplay();
+        int screenWidth = d.getWidth();
 
         ArrayList<Memory> memories = databaseHelper.getMemoryList();
         for (int i = 0; i < memories.size(); i++) {
@@ -54,30 +62,28 @@ public class MainFragment extends Fragment {
             description.setText(memory.getDescription());
             ImageView imageView = new ImageView(getContext());
             imageView.setImageBitmap(memory.bitmap);
+            imageView.setAdjustViewBounds(false);
+
+            int width = (int) (screenWidth * 0.8);
+            double aspectRatio = 4;
+            int height = (int) (width * (1/aspectRatio));
+            imageView.setMaxWidth(width);
+            imageView.setMaxHeight(height);
+            imageView.setScaleType(ImageView.ScaleType.FIT_START);
+            System.out.println("imageView.onViewCreated width:"+width+ " height: " + height);
 
             LinearLayout linearLayout = new LinearLayout(getContext());
-            LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayoutParams.setMargins(20, 20, 20, 20);
             linearLayout.setLayoutParams(linearLayoutParams);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.addView(imageView);
             linearLayout.addView(title);
             linearLayout.addView(description);
-            linearLayout.addView(imageView);
 
             mainLinearLayout.addView(linearLayout);
 
         }
-
-
-        /*
-        binding.buttonFirst.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(MainFragment.this)
-                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
-            }
-        });
-         */
     }
 
 

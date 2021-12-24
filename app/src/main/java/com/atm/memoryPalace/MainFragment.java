@@ -1,16 +1,20 @@
 package com.atm.memoryPalace;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -66,20 +70,42 @@ public class MainFragment extends Fragment {
 
             int width = (int) (screenWidth * 0.8);
             double aspectRatio = 4;
-            int height = (int) (width * (1/aspectRatio));
+            int height = (int) (width * (1 / aspectRatio));
             imageView.setMaxWidth(width);
             imageView.setMaxHeight(height);
             imageView.setScaleType(ImageView.ScaleType.FIT_START);
-            System.out.println("imageView.onViewCreated width:"+width+ " height: " + height);
+            System.out.println("imageView.onViewCreated width:" + width + " height: " + height);
 
             LinearLayout linearLayout = new LinearLayout(getContext());
             LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            linearLayoutParams.setMargins(20, 20, 20, 20);
+            linearLayoutParams.setMargins(20, 0, 20, 100);
             linearLayout.setLayoutParams(linearLayoutParams);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.addView(imageView);
             linearLayout.addView(title);
             linearLayout.addView(description);
+
+            linearLayout.setOnClickListener(v -> {
+                        System.out.println(".onViewCreated you clicked the " + v);
+                        Intent myIntent = new Intent(getContext(), DetailsActivity.class);
+                        myIntent.putExtra("memory", memory.toString());
+                        this.startActivity(myIntent);
+                    }
+            );
+            View viewDivider = new View(getContext());
+            int dividerHeight = (int) (getResources().getDisplayMetrics().density * 1);
+            viewDivider.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dividerHeight));
+            viewDivider.setBackgroundColor(Color.parseColor("#000000"));
+
+            linearLayout.addView(viewDivider);
+           /* linearLayout.addView(new View(
+
+            ));
+            <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"/>*/
 
             mainLinearLayout.addView(linearLayout);
 

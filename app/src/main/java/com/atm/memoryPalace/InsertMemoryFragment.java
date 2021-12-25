@@ -110,7 +110,7 @@ public class InsertMemoryFragment extends Fragment {
                            titleText.getText().toString(),
                            descriptionText.getText().toString(),
                            dateText.getText().toString(),
-                           selectedLocation.toString(),
+                           selectedLocation,
                            bitmap
                    );
                    Toast.makeText(getActivity(), "Success ! ", Toast.LENGTH_LONG).show();

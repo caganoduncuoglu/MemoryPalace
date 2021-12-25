@@ -3,10 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <TextView
+
+  <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:text="Details Page"/>
+      android:layout_height="wrap_content"
+      android:background="@color/primary"
+      android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Details Page"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_edit"
+        android:text="Edit"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_map"
+        android:text="Show Map"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details_delete"
+        android:text="Delete"/>
+  </LinearLayout>
+
 
 
 

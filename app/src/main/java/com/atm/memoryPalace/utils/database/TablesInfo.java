@@ -2,6 +2,8 @@ package com.atm.memoryPalace.utils.database;
 
 import android.provider.BaseColumns;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class TablesInfo {
 
     public static final class MemoryEntry implements BaseColumns {
@@ -12,7 +14,8 @@ public class TablesInfo {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_IMAGE = "imageBitmap";
         public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_LOCATION = "location";
+        public static final String COLUMN_LAT = "location_latitude";
+        public static final String COLUMN_LNG = "location_longitude";
         public static final String COLUMN_CREATE_DATE = "create_date";
     }
 

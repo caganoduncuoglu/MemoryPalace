@@ -59,8 +59,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         finish();
                     }
             );
+        }else{
+            mapButton.setVisibility(View.INVISIBLE);
         }
-        mapButton.setVisibility(View.INVISIBLE);
 
         mapFragment.getMapAsync(this);
     }
@@ -75,14 +76,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMinZoomPreference(8);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(initialLoc));
         mMap.setOnMapClickListener(v -> {
+
+            if(insertMode){
                 LatLng newLoc = new LatLng(v.latitude,v.longitude);
                 marker.remove();
                 marker = mMap.addMarker(new MarkerOptions().position(newLoc));
                 initialLat = v.latitude;
                 initialLng = v.longitude;
-                if(insertMode){
-                    mapButton.setVisibility(View.VISIBLE);
-                }
+            mapButton.setVisibility(View.VISIBLE);
+            }
         });
     }
 

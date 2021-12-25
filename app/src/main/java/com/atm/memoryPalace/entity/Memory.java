@@ -2,35 +2,32 @@ package com.atm.memoryPalace.entity;
 
 import android.graphics.Bitmap;
 
+import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 import java.util.Date;
 
 public class Memory implements Serializable {
-    public String id;
+    private String id;
     public String title;
     public String description;
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
     public Bitmap bitmap;
-    public String location;
+    public LatLng location;
     public Date date;
     public Date createDate;
 
-    public Memory(String id, String title, String description, Bitmap bitmap, String location, Date date, Date createDate) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.bitmap = bitmap;
-        this.location = location;
-        this.date = date;
-        this.createDate = createDate;
+    public Memory(String id, String title, String description, Bitmap bitmap, String lat, String lng, Date date, Date createDate) {
+        try {
+            this.id = id;
+            this.title = title;
+            this.description = description;
+            this.bitmap = bitmap;
+            this.location = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+            this.date = date;
+            this.createDate = createDate;
+        } catch (Exception e) {
+            System.out.println("Memory e: " + e);
+        }
     }
 
     public String getId() {
@@ -57,29 +54,6 @@ public class Memory implements Serializable {
         this.description = description;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
 
     @Override
     public String toString() {

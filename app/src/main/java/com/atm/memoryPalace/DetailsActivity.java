@@ -2,9 +2,13 @@ package com.atm.memoryPalace;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.atm.memoryPalace.databinding.DetailsActivityBinding;
+import com.atm.memoryPalace.entity.Memory;
+import com.atm.memoryPalace.utils.database.DatabaseHelper;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -12,10 +16,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class DetailsActivity extends FragmentActivity /*implements OnMapReadyCallback*/ {
+public class DetailsActivity extends FragmentActivity  {
 
     private GoogleMap mMap;
     private DetailsActivityBinding binding;
+
+    private Button editButton;
+    private Button showMapButton;
+    private Button deleteButton;
+    private Memory memory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,27 +33,23 @@ public class DetailsActivity extends FragmentActivity /*implements OnMapReadyCal
         binding = DetailsActivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-/*        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
+        String memoryId = getIntent().getStringExtra("memoryId");
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        memory = databaseHelper.getMemory(memoryId);
+
+
+        editButton = findViewById(R.id.details_edit);
+        showMapButton = findViewById(R.id.details_map);
+        deleteButton = findViewById(R.id.details_delete);
+
+        showMapButton.setOnClickListener(v -> {
+            Intent mapIntent = new Intent(this, MapsActivity.class);
+            mapIntent.putExtra("insertMode", false);
+            startActivity(mapIntent);
+        });
+
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-   /* @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }*/
 }

@@ -13,6 +13,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.atm.memoryPalace.entity.Memory;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
@@ -37,7 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TablesInfo.MemoryEntry.COLUMN_DESCRIPTION + " TEXT, " +
                     TablesInfo.MemoryEntry.COLUMN_IMAGE + " BLOB, " +
                     TablesInfo.MemoryEntry.COLUMN_DATE + " TEXT, " +
-                    TablesInfo.MemoryEntry.COLUMN_LOCATION + " TEXT, " +
+                    TablesInfo.MemoryEntry.COLUMN_LAT + " TEXT, " +
+                    TablesInfo.MemoryEntry.COLUMN_LNG + " TEXT, " +
                     TablesInfo.MemoryEntry.COLUMN_CREATE_DATE + " TEXT DEFAULT CURRENT_TIMESTAMP" +
                     ")";
 
@@ -66,14 +68,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
-    public void addMemory(String title, String description, String date, String location, Bitmap bitmap) {
+    public void addMemory(String title, String description, String date, LatLng location, Bitmap bitmap) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(TablesInfo.MemoryEntry.COLUMN_TITLE, title.trim());
         cv.put(TablesInfo.MemoryEntry.COLUMN_DESCRIPTION, description.trim());
         cv.put(TablesInfo.MemoryEntry.COLUMN_IMAGE, getBitmapAsByteArray(bitmap));
         cv.put(TablesInfo.MemoryEntry.COLUMN_DATE, date.trim());
-        cv.put(TablesInfo.MemoryEntry.COLUMN_LOCATION, location.trim());
+        cv.put(TablesInfo.MemoryEntry.COLUMN_LAT, Double.toString(location.latitude));
+        cv.put(TablesInfo.MemoryEntry.COLUMN_LNG, Double.toString(location.longitude));
         cv.put(TablesInfo.MemoryEntry.COLUMN_CREATE_DATE, format.format(new Date()));
 
 
@@ -94,6 +97,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public Memory getMemory(String id) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TablesInfo.MemoryEntry.TABLE_NAME + " WHERE "
+                + TablesInfo.MemoryEntry.COLUMN_ID + " = " + id;
+
+      try{
+          Cursor c = db.rawQuery(selectQuery, null);
+
+          if (c != null)
+              c.moveToFirst();
+
+          Memory memory = new Memory(
+                  c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_ID)),
+                  c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_TITLE)),
+                  c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_DESCRIPTION)),
+                  getImage(c.getBlob(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_IMAGE))),
+                  c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_LAT)),
+                  c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_LNG)),
+                  format.parse(c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_DATE))),
+                  format.parse(c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_CREATE_DATE)))
+          );
+          return memory;
+      }catch(Exception e){
+          System.out.println("getMemory e: "+e);
+          return null;
+      }
+
+    }
+
+    @SuppressLint("Range")
     public ArrayList<Memory> getMemoryList() {
         ArrayList<Memory> data = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -103,7 +137,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 TablesInfo.MemoryEntry.COLUMN_TITLE,
                 TablesInfo.MemoryEntry.COLUMN_DESCRIPTION,
                 TablesInfo.MemoryEntry.COLUMN_IMAGE,
-                TablesInfo.MemoryEntry.COLUMN_LOCATION,
+                TablesInfo.MemoryEntry.COLUMN_LAT,
+                TablesInfo.MemoryEntry.COLUMN_LNG,
                 TablesInfo.MemoryEntry.COLUMN_DATE,
                 TablesInfo.MemoryEntry.COLUMN_CREATE_DATE
         };
@@ -116,12 +151,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_TITLE)),
                         c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_DESCRIPTION)),
                         getImage(c.getBlob(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_IMAGE))),
-                        c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_LOCATION)),
+                        c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_LAT)),
+                        c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_LNG)),
                         format.parse(c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_DATE))),
                         format.parse(c.getString(c.getColumnIndex(TablesInfo.MemoryEntry.COLUMN_CREATE_DATE)))
-                    ));
+                ));
             } catch (ParseException e) {
-                Log.e("DatabaseHelper", "ParseException occurred." , e);
+                Log.e("DatabaseHelper", "ParseException occurred.", e);
                 e.printStackTrace();
             }
         }

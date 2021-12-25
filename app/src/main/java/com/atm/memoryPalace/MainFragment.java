@@ -86,9 +86,9 @@ public class MainFragment extends Fragment {
             linearLayout.addView(description);
 
             linearLayout.setOnClickListener(v -> {
-                        System.out.println(".onViewCreated you clicked the " + v);
+
                         Intent myIntent = new Intent(getContext(), DetailsActivity.class);
-                        myIntent.putExtra("memory", memory.toString());
+                        myIntent.putExtra("memoryId", memory.getId());
                         this.startActivity(myIntent);
                     }
             );

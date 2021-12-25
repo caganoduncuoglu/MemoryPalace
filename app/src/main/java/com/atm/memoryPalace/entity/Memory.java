@@ -2,9 +2,10 @@ package com.atm.memoryPalace.entity;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Memory{
+public class Memory implements Serializable {
     public String id;
     public String title;
     public String description;

@@ -26,7 +26,11 @@
         <activity
             android:name=".DetailsActivity"
             android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/details_activity" />
+
+        <activity android:name=".MapsActivity"
+            android:exported="false"
+            android:label="@string/maps_activity"/>
 
         <activity
             android:name=".DateTimePickerActivity"

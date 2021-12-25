@@ -147,19 +147,32 @@
                     android:paddingLeft="10dp"
                     android:gravity="top"/>
 
-                <TextView android:id="@+id/memoryInsertLocation"
+                <TextView
+                    android:id="@+id/memoryInsertLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Location"
                     android:textStyle="bold"
-                    android:textSize="25dp"></TextView>
+                    android:textSize="25dp" />
 
-                <EditText
-                    android:id="@+id/memoryInsertLocationText"
+                <ImageButton
+                    android:id="@+id/setLocationButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_camera_alt_24"
+                    android:background="@drawable/rounded_button"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/location_image_linear_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="text|textMultiLine"
-                    android:gravity="top"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+   />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

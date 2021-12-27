@@ -1,7 +1,11 @@
 package com.atm.memoryPalace;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -30,6 +34,7 @@ public class MainFragment extends Fragment {
 
     private LinearLayout mainLinearLayout;
     private DatabaseHelper databaseHelper;
+    private ImageView homeImage;
 
 
     public MainFragment() {
@@ -50,6 +55,7 @@ public class MainFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getContext());
         mainLinearLayout = view.findViewById(R.id.home_linear_layout);
+        homeImage = view.findViewById(R.id.image);
 
         WindowManager w = getActivity().getWindowManager();
         Display d = w.getDefaultDisplay();
@@ -62,19 +68,32 @@ public class MainFragment extends Fragment {
 
             TextView title = new TextView(getContext());
             title.setText(memory.getTitle());
+            title.setTextSize(24);
+            title.setTypeface(null, Typeface.BOLD);
+
+            TextView date = new TextView(getContext());
+            date.setText(memory.getDate());
+            date.setTextSize(12);
+            date.setTypeface(null, Typeface.ITALIC);
+
             TextView description = new TextView(getContext());
             description.setText(memory.getDescription());
-            ImageView imageView = new ImageView(getContext());
-            imageView.setImageBitmap(memory.bitmap);
-            imageView.setAdjustViewBounds(false);
 
-            int width = (int) (screenWidth * 0.8);
+            ImageView imageView = new ImageView(getContext());
+            int width = memory.bitmap.getWidth();
+            int startHeight = memory.bitmap.getHeight() / 3;
+            int fixedHeight = memory.bitmap.getHeight() / 2;
+            imageView.setImageBitmap(Bitmap.createBitmap(memory.bitmap, 0,startHeight,width, fixedHeight));
+            imageView.setAdjustViewBounds(true);
+
+            //int width = (int) (screenWidth * 0.8);
             double aspectRatio = 4;
-            int height = (int) (width * (1 / aspectRatio));
-            imageView.setMaxWidth(width);
-            imageView.setMaxHeight(height);
-            imageView.setScaleType(ImageView.ScaleType.FIT_START);
-            System.out.println("imageView.onViewCreated width:" + width + " height: " + height);
+            //int height = (int) (width * (1 / aspectRatio));
+
+           // imageView.setMaxWidth(20000);
+          //  imageView.setMaxHeight(1000);
+            //imageView.setScaleType(ImageView.ScaleType.FIT_START);
+            //System.out.println("imageView.onViewCreated width:" + width + " height: " + height);
 
             LinearLayout linearLayout = new LinearLayout(getContext());
             LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -83,6 +102,7 @@ public class MainFragment extends Fragment {
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.addView(imageView);
             linearLayout.addView(title);
+            linearLayout.addView(date);
             linearLayout.addView(description);
 
             linearLayout.setOnClickListener(v -> {

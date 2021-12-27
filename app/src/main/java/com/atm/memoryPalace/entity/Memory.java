@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Memory implements Serializable {
@@ -41,6 +43,12 @@ public class Memory implements Serializable {
     public String getTitle() {
         return title;
     }
+    public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        String dateStr = dateFormat.format(date);
+        return dateStr;
+    }
+
 
     public void setTitle(String title) {
         this.title = title;

@@ -38,29 +38,7 @@
         android:textSize="20sp"
         android:textStyle="bold|italic" />
 
-        <Button
-        android:id="@+id/btnShare"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvPlaceName"
-        android:layout_marginTop="10dp"
-        android:text="Share" />
 
-        <Button
-        android:id="@+id/btnVisit"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlaceName"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/btnShare"
-        android:layout_toRightOf="@+id/btnShare"
-        android:text="Visit" />
         </RelativeLayout>
     </androidx.recyclerview.widget.RecyclerView>
 

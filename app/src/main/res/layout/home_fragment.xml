@@ -15,25 +15,28 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:text="Memory Palace"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:paddingTop="40dp">
+
         <LinearLayout
             android:id="@+id/home_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:gravity="start">
-
+            android:gravity="start"
+            android:orientation="vertical">
 
 
         </LinearLayout>

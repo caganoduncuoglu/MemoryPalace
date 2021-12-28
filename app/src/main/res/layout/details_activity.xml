@@ -1,39 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/primary">
 
 
-  <LinearLayout
-      android:layout_width="match_parent"
+  <ImageButton
+      android:id="@+id/return_home"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginLeft="10dp"
+      android:layout_marginBottom="5dp"
       android:background="@color/primary"
+      android:src="@drawable/ic_baseline_arrow_back_24"
+      tools:ignore="SpeakableTextPresentCheck" />
+
+  <ImageButton
+      android:id="@+id/details_map"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentStart="false"
+      android:layout_alignParentLeft="false"
+      android:layout_alignParentEnd="false"
+      android:layout_alignParentRight="false"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginBottom="6dp"
+      android:background="@color/primary"
+      android:src="@drawable/ic_baseline_map_24"
+      android:text="Show Map"
+      tools:ignore="SpeakableTextPresentCheck" />
+
+  <ImageButton
+      android:id="@+id/details_delete"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginRight="4dp"
+      android:layout_marginBottom="5dp"
+      android:background="@color/primary"
+      android:src="@drawable/ic_baseline_delete_24"
+      android:text="Delete"
+      tools:ignore="SpeakableTextPresentCheck" />
+
+
+  <RelativeLayout
+      android:id="@+id/screen"
+      android:layout_width="match_parent"
+      android:layout_height="672dp"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentBottom="true"
+      android:layout_marginTop="0dp"
+      android:layout_marginBottom="59dp"
+      android:background="@color/background"
       android:orientation="vertical">
-    <TextView
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Details Page"/>
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/details_edit"
-        android:text="Edit"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/details_map"
-        android:text="Show Map"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/details_delete"
-        android:text="Delete"/>
-  </LinearLayout>
+        android:layout_marginBottom="10dp"
+        android:background="@color/primary">
 
 
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:layout_marginStart="5dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginEnd="5dp"
+          android:layout_marginBottom="5dp"
+          android:text="Details Page"
+          android:textColor="@color/white"
+          android:textSize="20sp"
+          android:textStyle="bold" />
 
 
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="588dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="47dp">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/details_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:scaleX="0.9"
+            android:scaleY="0.9">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="32dp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16dp"
+            android:textStyle="italic"></TextView>
+
+        <TextView
+            android:id="@+id/details_text"
+            android:layout_width="match_parent"
+            android:layout_height="566dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16dp"></TextView>
+
+      </LinearLayout>
+
+    </ScrollView>
+
+
+  </RelativeLayout>
 
 </RelativeLayout>

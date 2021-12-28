@@ -157,13 +157,14 @@
 
                 <ImageButton
                     android:id="@+id/setLocationButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_camera_alt_24"
+                    android:layout_width="125dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/rounded_button"
                     android:paddingLeft="15dp"
                     android:paddingTop="15dp"
-                    />
+
+                    android:src="@drawable/ic_baseline_location_on_24" />
 
                 <LinearLayout
                     android:id="@+id/location_image_linear_layout"

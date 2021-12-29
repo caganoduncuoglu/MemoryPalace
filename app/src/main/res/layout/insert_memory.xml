@@ -62,7 +62,8 @@
                     android:background="@drawable/rounded_view"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:gravity="top"/>
+                    android:gravity="top"
+                    android:textColor="@color/primary"/>
 
                 <TextView android:id="@+id/memoryInsertDescription"
                     android:layout_width="wrap_content"
@@ -80,7 +81,8 @@
                     android:background="@drawable/rounded_view"
                     android:paddingLeft="10dp"
                     android:paddingTop="10dp"
-                    android:gravity="top"/>
+                    android:gravity="top"
+                    android:textColor="@color/primary"/>
 
                 <LinearLayout
                     android:id="@+id/image_linear_layout"
@@ -145,6 +147,7 @@
                     android:background="@drawable/rounded_view"
                     android:paddingTop="10dp"
                     android:paddingLeft="10dp"
+                    android:textColor="@color/primary"
                     android:gravity="top"/>
 
                 <TextView

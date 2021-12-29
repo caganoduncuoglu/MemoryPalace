@@ -66,7 +66,7 @@ public class MainFragment extends Fragment {
         if(memories.isEmpty()){
 
             TextView title = new TextView(getContext());
-            title.setText("You have no memories! Lets add one");
+            title.setText("You have no memories! \nLets add one.");
             title.setTextSize(26);
             title.setTextColor(Color.BLACK);
             mainLinearLayout.setPadding(8,8,8,8);

@@ -51,6 +51,7 @@ public class DetailsActivity extends FragmentActivity  {
 
         memory = databaseHelper.getMemory(memoryId);
 
+        LatLng location = memory.location;
 
 
         showMapButton = findViewById(R.id.details_map);
@@ -83,6 +84,8 @@ public class DetailsActivity extends FragmentActivity  {
         showMapButton.setOnClickListener(v -> {
             Intent mapIntent = new Intent(this, MapsActivity.class);
             mapIntent.putExtra("insertMode", false);
+            mapIntent.putExtra("initialLat", location.latitude);
+            mapIntent.putExtra("initialLng", location.longitude);
             startActivity(mapIntent);
         });
 

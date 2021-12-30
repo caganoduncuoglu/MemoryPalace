@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,12 +24,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.atm.memoryPalace.entity.Memory;
 import com.atm.memoryPalace.utils.database.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainFragment extends Fragment {
 
@@ -50,6 +54,7 @@ public class MainFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -72,6 +77,10 @@ public class MainFragment extends Fragment {
             mainLinearLayout.setPadding(8,8,8,8);
             mainLinearLayout.addView(title);
         }
+
+        //SORT
+        Collections.reverse(memories);
+
 
         for (int i = 0; i < memories.size(); i++) {
             Memory memory = memories.get(i);

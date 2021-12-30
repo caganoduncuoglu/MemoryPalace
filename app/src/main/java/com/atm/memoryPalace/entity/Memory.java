@@ -44,7 +44,7 @@ public class Memory implements Serializable {
         return title;
     }
     public String getDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         String dateStr = dateFormat.format(date);
         return dateStr;
     }

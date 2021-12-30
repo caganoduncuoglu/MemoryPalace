@@ -20,7 +20,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:text="Memory Palace"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>

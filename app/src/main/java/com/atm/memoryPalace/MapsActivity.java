@@ -73,8 +73,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng initialLoc = new LatLng(initialLat, initialLng);
         marker = mMap.addMarker(new MarkerOptions().position(initialLoc));
-        mMap.setMinZoomPreference(8);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(initialLoc));
+       /* mMap.setMinZoomPreference(8);*/
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLoc,11));
         mMap.setOnMapClickListener(v -> {
 
             if(insertMode){

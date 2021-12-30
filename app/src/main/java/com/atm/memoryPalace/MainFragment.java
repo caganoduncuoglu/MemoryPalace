@@ -1,5 +1,6 @@
 package com.atm.memoryPalace;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -54,6 +55,7 @@ public class MainFragment extends Fragment {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -90,14 +92,17 @@ public class MainFragment extends Fragment {
             title.setText(memory.getTitle());
             title.setTextSize(24);
             title.setTypeface(null, Typeface.BOLD);
+            title.setTextColor(R.color.colorPrimary);
 
             TextView date = new TextView(getContext());
             date.setText(memory.getDate());
             date.setTextSize(12);
             date.setTypeface(null, Typeface.ITALIC);
+            date.setTextColor(R.color.colorPrimary);
 
             TextView description = new TextView(getContext());
             description.setText(memory.getDescription());
+            description.setTextColor(R.color.colorPrimary);
 
             ImageView imageView = new ImageView(getContext());
             int width = memory.bitmap.getWidth();

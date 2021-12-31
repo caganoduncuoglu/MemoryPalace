@@ -3,12 +3,15 @@ package com.atm.memoryPalace;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +37,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
@@ -54,9 +58,9 @@ public class InsertMemoryFragment extends Fragment {
     public static final int TAKE_PHOTO = 2;
     public static final int GET_DATETIME = 3;
     public static final int GET_LOCATION = 4;
-    private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private Bitmap bitmap;
     private LatLng selectedLocation;
+    private Uri imageUri;
 
 
     public InsertMemoryFragment() {
@@ -175,7 +179,14 @@ public class InsertMemoryFragment extends Fragment {
                 ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 110);
         } else {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.TITLE, "New Picture");
+            values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+            imageUri = getContext().getContentResolver().insert(
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             startActivityForResult(cameraIntent, TAKE_PHOTO);
         }
     }
@@ -211,18 +222,20 @@ public class InsertMemoryFragment extends Fragment {
                     }
                 }
             } else if (requestCode == TAKE_PHOTO) {
-                if (data.getExtras() != null) {
-                    final Bundle extras = data.getExtras();
-                    bitmap = extras.getParcelable("data");
-
-                    ImageView imageView = new ImageView(getContext());
-                    imageView.setImageBitmap(bitmap);
-
-                    imageFieldLinearLayout.removeAllViews();
-                    imageFieldLinearLayout.addView(imageView);
-                    imageLinearLayout.getLayoutParams().height = 750;
-                    imageLinearLayout.requestLayout();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(
+                            getContext().getContentResolver(), imageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+                ImageView imageView = new ImageView(getContext());
+                imageView.setImageBitmap(bitmap);
+
+                imageFieldLinearLayout.removeAllViews();
+                imageFieldLinearLayout.addView(imageView);
+                imageLinearLayout.getLayoutParams().height = 750;
+                imageLinearLayout.requestLayout();
             } else if (requestCode == GET_DATETIME) {
                 dateText.setText(data.getStringExtra("date"));
             }else if(requestCode == GET_LOCATION) {

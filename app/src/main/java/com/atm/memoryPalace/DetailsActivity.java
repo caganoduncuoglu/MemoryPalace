@@ -31,7 +31,6 @@ public class DetailsActivity extends FragmentActivity  {
     private GoogleMap mMap;
     private DetailsActivityBinding binding;
 
-    private Button editButton;
     private ImageButton showMapButton;
     private ImageButton deleteButton;
     private ImageButton backButton;
@@ -50,11 +49,7 @@ public class DetailsActivity extends FragmentActivity  {
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
         memory = databaseHelper.getMemory(memoryId);
-
         LatLng location = memory.location;
-
-
-        showMapButton = findViewById(R.id.details_map);
 
         ImageView image = (ImageView) findViewById(R.id.details_image);
         int width = memory.bitmap.getWidth();
@@ -70,14 +65,12 @@ public class DetailsActivity extends FragmentActivity  {
         TextView details = (TextView) findViewById(R.id.details_text);
         details.setText(memory.getDescription());
 
-
+        showMapButton = findViewById(R.id.details_map);
         deleteButton = findViewById(R.id.details_delete);
         backButton = findViewById(R.id.return_home);
 
-
         backButton.setOnClickListener(v -> {
             Intent homeIntent = new Intent(this, MainActivity.class);
-         //   homeIntent.putExtra("insertMode", false);
             startActivity(homeIntent);
         });
 
@@ -97,6 +90,5 @@ public class DetailsActivity extends FragmentActivity  {
         });
 
     }
-
 
 }

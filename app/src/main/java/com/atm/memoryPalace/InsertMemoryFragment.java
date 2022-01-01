@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -187,6 +188,7 @@ public class InsertMemoryFragment extends Fragment {
 
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
             startActivityForResult(cameraIntent, TAKE_PHOTO);
         }
     }
@@ -208,7 +210,7 @@ public class InsertMemoryFragment extends Fragment {
                 if (data.getData() != null) {
                     try {
                         InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
-                        bitmap = BitmapFactory.decodeStream(inputStream);
+                        bitmap = getResizedBitmap(BitmapFactory.decodeStream(inputStream),1000);
 
                         ImageView imageView = new ImageView(getContext());
                         imageView.setImageBitmap(bitmap);
@@ -223,8 +225,8 @@ public class InsertMemoryFragment extends Fragment {
                 }
             } else if (requestCode == TAKE_PHOTO) {
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(
-                            getContext().getContentResolver(), imageUri);
+                    bitmap = getResizedBitmap(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri),1000);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -245,6 +247,21 @@ public class InsertMemoryFragment extends Fragment {
 
             }
         }
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     private class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {

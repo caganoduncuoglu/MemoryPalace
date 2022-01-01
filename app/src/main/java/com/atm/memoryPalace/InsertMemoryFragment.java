@@ -3,11 +3,13 @@ package com.atm.memoryPalace;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -226,6 +228,23 @@ public class InsertMemoryFragment extends Fragment {
             } else if (requestCode == TAKE_PHOTO) {
                 try {
                     bitmap = getResizedBitmap(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri),1000);
+                    InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
+                    @SuppressLint({"NewApi", "LocalSuppress"}) ExifInterface exif = new ExifInterface(inputStream);
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                    int angle = 0;
+
+                    if (orientation == 6) {
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(90);
+                        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+                        Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                        bitmap = rotatedBitmap;
+                    }
+
+                    System.out.println(bitmap.getHeight());
+                    System.out.println(bitmap.getWidth());
+
 
                 } catch (IOException e) {
                     e.printStackTrace();

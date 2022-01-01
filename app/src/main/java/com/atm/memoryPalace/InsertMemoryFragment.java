@@ -214,6 +214,23 @@ public class InsertMemoryFragment extends Fragment {
                         InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
                         bitmap = getResizedBitmap(BitmapFactory.decodeStream(inputStream),1000);
 
+                        try {
+                            @SuppressLint({"NewApi", "LocalSuppress"}) ExifInterface exif = new ExifInterface(inputStream);
+                            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                            if (orientation == 6) {
+                                Matrix matrix = new Matrix();
+                                matrix.postRotate(90);
+                                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+                                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+                                bitmap = rotatedBitmap;
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                         ImageView imageView = new ImageView(getContext());
                         imageView.setImageBitmap(bitmap);
 
@@ -231,7 +248,6 @@ public class InsertMemoryFragment extends Fragment {
                     InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
                     @SuppressLint({"NewApi", "LocalSuppress"}) ExifInterface exif = new ExifInterface(inputStream);
                     int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-                    int angle = 0;
 
                     if (orientation == 6) {
                         Matrix matrix = new Matrix();
@@ -241,10 +257,6 @@ public class InsertMemoryFragment extends Fragment {
                         Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
                         bitmap = rotatedBitmap;
                     }
-
-                    System.out.println(bitmap.getHeight());
-                    System.out.println(bitmap.getWidth());
-
 
                 } catch (IOException e) {
                     e.printStackTrace();
